@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Contacts</title>
+</head>
+ 
+<body>
+{% if message %}
+  <b>{{ message }}</ b>
+  <p />
+{% endif %}
+ 
+{% if contact_list %}
+<table>
+  {% for contact in contact_list %}
+  <tr bgcolor='{% cycle FFFFFF,EEEEEE as rowcolor %}'>
+    <td>{{ contact.name }}</td>
+    <td><a href='{{ request.path }}?edit_id={{ contact.id }}'>Edit</a></td>
+    <td><a href='{{ request.path }}?delete_id={{ contact.id }}'>Delete</a></td>
+  </tr>
+  {% endfor %}
+</table>
+<p />
+{% endif %}
+ 
+<form action='{{ request.path }}' method='POST'>
+<input type='hidden' name='edit_id' value='{{ edit_id }}'>
+<table>
+{{ form }}
+<tr>
+  <td colspan=2 align=right>
+    <input type=submit name='submit_action' value='{{ submit_action }}'>
+  </td>
+</tr>
+</table>
+</form>
+ 
+{% ifnotequal submit_action 'Add' %}
+  <p />
+  <a href='{{ request.path }}'>Add New Contact</a>
+{% endifnotequal %}
+</html>

@@ -1,0 +1,46 @@
+{% extends 'clientes.html' %}
+ 
+{% block clienteform %}
+<form name="clienteform" id="frmCliente" method="post" action="{{form_url|default:"/cliente/add/"}}">
+<div id="divFormCliente">
+ 
+  <h2>{{operacao|upper|default:"CADASTRAR"}} CLIENTE</h2>
+  <!-- ID do cliente -->
+  <input type="hidden" name="id" id="id_cliente" value="{{id_cliente}}">
+  Nome ou Raz&atilde;o Social: {{form.nome}}<br />
+  Apelido ou Nome Fantasia: {{form.apelido}}<br />
+  CPF ou CNPJ: {{form.cpf}}<br />
+  RG ou Insc. Estadual: {{form.rg}}<br />
+  Org&atilde;o Exp. RG: {{form.orgao_rg}}<br />
+  Tipo Pessoa: {{form.tipo_pessoa}}<br />
+  Data de Nasc.: {{form.data_nascimento}}<br />
+  Grupo: {{form.grupovencimento}}<br />
+  Bairro:
+  <select name="bairro">
+    {% for b in bairros %}
+ 
+      <option value="{{b.id}}">{{b.bairro}}</option>
+    {% endfor %}
+  </select><br />
+  Endereco: <select name="logradouro" id="id_logradouro"></select>
+  Numero: {{form.numero}} CEP: {{form.cep}}<br />
+  Referencia: {{form.referencia}}<br /><br />
+ 
+  <input type="submit" value="{{operacao|default:"Cadastrar"}}">
+</div>
+</form>
+ 
+<div id="divErro" style="color:red;">
+  <br />
+  {% ifequal mensagem "ok" %}
+    Cadastro realizado com sucesso.
+  {% else %}
+    {% for campo in form %}
+      {% if campo.errors %}
+        <br />{{campo.label}} {{campo.errors}}
+      {% endif %}
+    {% endfor %}
+  {% endifequal %}
+</div>
+ 
+{% endblock %}

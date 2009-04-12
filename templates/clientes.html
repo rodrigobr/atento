@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block principal %}
+ 
+{% ifequal operacao "Cadastrar" %}
+<form name="buscacliente" id="frmBuscaCliente" method="post" action="/cliente/search/">
+<div id="divBuscaCliente">
+  <br />Buscar por nome ou CPF: <input type="text" name="busca" id="id_busca">
+  <input type="submit" name="btBuscar" value="Buscar">
+</div>
+</form>
+ 
+<form name="listacliente" id="frmListaCliente" method="post" action="">
+<div id="divListaCliente">
+ 
+  <h2>{{titulo|default:"CLIENTES CADASTRADOS"}} - TOTAL: {{clientes|length}}</h2>
+  {% if not clientes %}
+    Nenhum cliente cadastrado.
+  {% else %}
+ 
+    Nome:
+    <select name="listaclientes" id="id_cliente">
+      {% for c in clientes %}
+        <option value="{{c.id}}">{{c.nome|upper}}</option>
+      {% endfor %}
+    </select>
+ 
+    <br /><br />
+    <input type="button" name="btEditar" value="Editar" onclick="Editar('/cliente/edit/','frmListaCliente','id_cliente')">
+    <input type="button" name="btExcluir" value="Excluir" onclick="Excluir('/cliente/delete/','frmListaCliente','id_cliente')">
+  {% endif %}
+ 
+</div>
+</form>
+{% endifequal %}
+{% block clienteform %}{% endblock %}
+{% endblock %}
